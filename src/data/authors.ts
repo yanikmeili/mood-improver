@@ -239,6 +239,80 @@ export const authors: Record<string, string> = {
     "Mozambican writer (b. 1955); writes in Portuguese inflected by Bantu rhythms; novels and stories of post-colonial Mozambique.",
   "Dalai Lama":
     "Spiritual leader of Tibetan Buddhism, Tenzin Gyatso (b. 1935); in exile since 1959; Nobel Peace Prize 1989.",
+
+  // ── Added with the positive expansion ───────────────────────────
+  "Walt Whitman":
+    "American poet (1819–1892); Leaves of Grass invented a new democratic, ecstatic, all-inclusive voice for American verse.",
+  "Gerard Manley Hopkins":
+    "English Jesuit priest and poet (1844–1889); unpublished in his lifetime, he later changed English prosody with his sprung rhythm and ecstatic religious wonder.",
+  "Wendell Berry":
+    "American farmer, essayist, and poet (b. 1934); writes from rural Kentucky on land, labor, marriage, and the limits of progress.",
+  "Lucille Clifton":
+    "American poet (1936–2010); concise, plainspoken, often unpunctuated lines on Black womanhood, family, and survival.",
+  "Maggie Smith":
+    "American poet (b. 1977, no relation to the actress); Good Bones went viral in 2016 and shifted her career toward writing on resilience.",
+  "Naomi Shihab Nye":
+    "Palestinian-American poet (b. 1952); wrote 19 Varieties of Gazelle and a great deal of work bridging Arab-American experience and quiet attention.",
+  "W. S. Merwin":
+    "American poet (1927–2019); two-time Pulitzer winner; later in life he planted thousands of palm trees in Hawaii.",
+  "e.e. cummings":
+    "American poet (1894–1962); reshaped typography, punctuation, and syntax on the page; wrote love poems and anti-war satire with equal energy.",
+  "Edna St. Vincent Millay":
+    "American poet and playwright (1892–1950); Pulitzer winner; lived openly bohemian, formally sonnet-classical.",
+  "Galway Kinnell":
+    "American poet (1927–2014); civil rights activist; wrote a poetry of bodily presence, mortality, and recovered tenderness.",
+  "Joy Harjo":
+    "Mvskoke (Muscogee) poet and musician (b. 1951); first Native American U.S. Poet Laureate, serving three terms.",
+  "Pablo Neruda":
+    "Chilean poet and diplomat (1904–1973); Nobel laureate; communist senator under Allende; love poems and political odes in equal measure.",
+  "Ross Gay":
+    "American poet and essayist (b. 1974); The Book of Delights catalogs small joys deliberately, as a practice.",
+  "Ursula K. Le Guin":
+    "American writer (1929–2018); science fiction and fantasy that took both genres seriously as moral and political instruments.",
+  "Marilynne Robinson":
+    "American novelist and essayist (b. 1943); Pulitzer winner; Gilead is her best-known novel, a Calvinist meditation in epistolary form.",
+  "Howard Thurman":
+    "American theologian and civil rights mentor (1899–1981); taught Martin Luther King Jr. and others; wrote on inwardness and nonviolence.",
+  "Ram Dass":
+    "American spiritual teacher, born Richard Alpert (1931–2019); Harvard psychologist turned Hindu seeker; wrote Be Here Now.",
+  "Frederick Buechner":
+    "American Presbyterian minister and novelist (1926–2022); wrote luminous theological memoir between his sermons and fiction.",
+  "Anne Lamott":
+    "American novelist and essayist (b. 1954); writes on faith, addiction, motherhood, and writing itself in a deliberately unpolished voice.",
+
+  "Pierre Reverdy":
+    "French poet (1889–1960); central to early surrealism, friend of Picasso and Braque; later retreated to a Benedictine abbey at Solesmes.",
+  "Pierre de Ronsard":
+    "French Renaissance poet (1524–1585); leader of the Pléiade; his Sonnets pour Hélène were written for a court lady who refused him.",
+  "Robert Desnos":
+    "French surrealist poet (1900–1945); died of typhoid in a concentration camp just after liberation; one of the great voices of automatic writing.",
+  "Jacques Brel":
+    "Belgian singer-songwriter (1929–1978); wrote chansons of love, jealousy, mortality, and political fury, all in dense literary French.",
+  "Édith Piaf":
+    "French singer (1915–1963); voice of postwar Parisian streets; her recordings of songs by others (Vaucaire, Moustaki, Aznavour) became her own.",
+  "Charles Trenet":
+    "French singer-songwriter (1913–2001); wrote La Mer, Que reste-t-il de nos amours, and dozens of standards still in the French songbook.",
+  "Hubert Reeves":
+    "Canadian-French astrophysicist (1932–2023); popularized cosmology in French; made stardust a household word.",
+  "Léopold Sédar Senghor":
+    "Senegalese poet, philosopher, and the first president of Senegal (1906–2001); co-founder of the négritude literary movement.",
+  "Jean Giono":
+    "French novelist (1895–1970); writer of rural Provence and pacifist who was imprisoned twice for refusing war.",
+
+  "Manoel de Barros":
+    "Brazilian poet (1916–2014); raised in the Pantanal; wrote a lifetime of poems about the small, the broken, and what isn't useful.",
+  "Cora Coralina":
+    "Brazilian poet, born Ana Lins dos Guimarães Peixoto Bretas (1889–1985); published her first book at 76; wrote of life in inland Goiás.",
+  "Mário Quintana":
+    "Brazilian poet (1906–1994); from Rio Grande do Sul; quiet, ironic, formally simple poems on time and books.",
+  "Caetano Veloso":
+    "Brazilian singer-songwriter (b. 1942); co-founded Tropicália with Gilberto Gil; exiled by the dictatorship to London in 1969.",
+  "Chico Buarque":
+    "Brazilian singer, songwriter, and novelist (b. 1944); his songs from the 1970s carried coded criticism of the dictatorship past the censors.",
+  "Gonzaguinha":
+    "Brazilian singer-songwriter, born Luiz Gonzaga Jr. (1945–1991); son of Luiz Gonzaga; wrote some of MPB's most lyrically tender songs.",
+  "João Guimarães Rosa":
+    "Brazilian writer and diplomat (1908–1967); Grande Sertão: Veredas is his most famous work, written in an invented Portuguese that mixes sertanejo speech, neologisms, and archaisms.",
 };
 
 // Heteronym-aware lookup: "Fernando Pessoa (Álvaro de Campos)" → falls back to
