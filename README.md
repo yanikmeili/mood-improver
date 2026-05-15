@@ -13,9 +13,11 @@ Kierkegaard…) appear in canonical English translation.
 
 - Vite + React 19 + TypeScript
 - Tailwind v4
-- ~300 hand-curated quotes in EN / FR / PT — no API, no key, no backend
+- 305 hand-curated quotes in EN / FR / PT — no API, no key, no backend
+- Per-quote explanation + per-author bio shown beneath the quote
 - Multilingual keyword matcher (EN+FR+PT) with negation handling
 - Input language is irrelevant to selection; only emotional tags drive the pick
+- Prompt and example cycle through the three languages while the textarea is empty
 
 ## Develop
 
@@ -62,8 +64,13 @@ Edit `src/data/quotes.ts`. Each entry needs:
   author: "First Last",
   source: "Optional Book Title",
   tags: ["one", "or", "more", "tags"],
+  explanation: "One or two sentences that illuminate something not obvious from the quote itself.",
 }
 ```
+
+Author bios live separately in `src/data/authors.ts`, keyed by author name.
+Heteronyms (e.g. Pessoa's "Álvaro de Campos") fall back to the base author
+name automatically.
 
 Available tags are in `ALL_TAGS` at the top of the same file. Rule of the
 house: don't add a quote you can't verify. If the attribution is fuzzy,
