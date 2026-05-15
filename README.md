@@ -18,6 +18,9 @@ Kierkegaard…) appear in canonical English translation.
 - Multilingual keyword matcher (EN+FR+PT) with negation handling
 - Input language is irrelevant to selection; only emotional tags drive the pick
 - Prompt and example cycle through the three languages while the textarea is empty
+- Local-only memory: every quote shown is logged to `localStorage` and a small
+  "look back" view aggregates the last 30 days (words, tags, repeated and
+  rejected quotes). Unlocks after 15 entries. No backend, no export, no charts.
 
 ## Develop
 

@@ -2,8 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { selectQuote, type Selection } from "./lib/match";
 import type { Tag, Lang } from "./data/quotes";
 import { getAuthorBio } from "./data/authors";
+import {
+  generateSessionId,
+  logQuoteShown,
+  markAction,
+} from "./lib/history";
+import { RecapView } from "./RecapView";
 
-type View = "input" | "quote";
+type View = "input" | "quote" | "recap";
 
 const PROMPTS: { lang: Lang; question: string; example: string }[] = [
   { lang: "en", question: "How are you, really?", example: "i'm tired and a little sad" },
@@ -26,6 +32,7 @@ export default function App() {
   const [rejectedTags, setRejectedTags] = useState<Tag[]>([]);
   const [quoteKey, setQuoteKey] = useState(0);
   const [promptIdx, setPromptIdx] = useState(0);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -33,7 +40,6 @@ export default function App() {
   }, [view, phase]);
 
   // Cycle the question + example through EN/FR/PT while the textarea is empty.
-  // Freeze on the current language once the user starts typing.
   useEffect(() => {
     if (view !== "input" || mood.length > 0) return;
     const id = setInterval(() => {
@@ -53,24 +59,43 @@ export default function App() {
 
   const submit = () => {
     if (!mood.trim()) return;
+    const sid = generateSessionId();
     transitionTo("quote", () => {
       const result = selectQuote(mood, { excludedIds: seenIds });
       setSelection(result);
       setSeenIds((ids) => [...ids, result.quote.id]);
       setRejectedTags([]);
       setQuoteKey((k) => k + 1);
+      setSessionId(sid);
+      logQuoteShown({
+        sessionId: sid,
+        isInitial: true,
+        input: mood,
+        matchedTags: result.matchedTags,
+        quoteId: result.quote.id,
+      });
     });
   };
 
   const handleAnother = () => {
+    if (!sessionId || !selection) return;
+    markAction(sessionId, selection.quote.id, "another");
     const result = selectQuote(mood, { excludedIds: seenIds, excludedTags: rejectedTags });
     setSelection(result);
     setSeenIds((ids) => [...ids, result.quote.id]);
     setQuoteKey((k) => k + 1);
+    logQuoteShown({
+      sessionId,
+      isInitial: false,
+      input: mood,
+      matchedTags: result.matchedTags,
+      quoteId: result.quote.id,
+    });
   };
 
   const handleDoesntFit = () => {
-    if (!selection) return;
+    if (!sessionId || !selection) return;
+    markAction(sessionId, selection.quote.id, "doesnt_fit");
     const tagsToReject = selection.quote.tags.filter((t) =>
       selection.matchedTags.includes(t),
     );
@@ -80,13 +105,32 @@ export default function App() {
     setSelection(result);
     setSeenIds((ids) => [...ids, result.quote.id]);
     setQuoteKey((k) => k + 1);
+    logQuoteShown({
+      sessionId,
+      isInitial: false,
+      input: mood,
+      matchedTags: result.matchedTags,
+      quoteId: result.quote.id,
+    });
   };
 
   const handleBack = () => {
+    if (sessionId && selection) {
+      markAction(sessionId, selection.quote.id, "back");
+    }
     transitionTo("input", () => {
       setSelection(null);
       setRejectedTags([]);
+      setSessionId(null);
     });
+  };
+
+  const handleLookBack = () => {
+    transitionTo("recap");
+  };
+
+  const handleBackFromRecap = () => {
+    transitionTo("input");
   };
 
   const prompt = PROMPTS[promptIdx];
@@ -95,7 +139,7 @@ export default function App() {
   return (
     <main className="min-h-screen flex items-center justify-center px-6 py-16 sm:py-24">
       <div className={`w-full max-w-2xl ${phase === "out" ? "view-leave" : "view-enter"}`}>
-        {view === "input" ? (
+        {view === "input" && (
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -153,61 +197,72 @@ export default function App() {
                 Enter to submit
               </p>
             </div>
-          </form>
-        ) : (
-          selection && (
-            <div className="space-y-10">
-              <div key={quoteKey} className="fade-enter space-y-8">
-                <blockquote
-                  lang={selection.quote.lang}
-                  className="font-serif text-2xl sm:text-3xl leading-snug text-neutral-900 dark:text-neutral-100"
-                >
-                  <span className="text-neutral-300 dark:text-neutral-700 select-none">
-                    &ldquo;
-                  </span>
-                  {selection.quote.text}
-                  <span className="text-neutral-300 dark:text-neutral-700 select-none">
-                    &rdquo;
-                  </span>
-                </blockquote>
-                <footer className="text-sm text-neutral-600 dark:text-neutral-400">
-                  — {selection.quote.author}
-                  {selection.quote.source && (
-                    <>
-                      , <em className="font-serif">{selection.quote.source}</em>
-                    </>
-                  )}
-                </footer>
-                {(bio || selection.quote.explanation) && (
-                  <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-3 text-xs sm:text-sm leading-relaxed text-neutral-500 dark:text-neutral-500 max-w-xl">
-                    {bio && <p className="italic">{bio}</p>}
-                    {selection.quote.explanation && <p>{selection.quote.explanation}</p>}
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center gap-6 pt-2">
-                <button
-                  onClick={handleAnother}
-                  className="text-sm tracking-wide uppercase text-neutral-900 dark:text-neutral-100 border-b border-neutral-900 dark:border-neutral-100 pb-1 hover:opacity-60 transition-opacity"
-                >
-                  Another
-                </button>
-                <button
-                  onClick={handleDoesntFit}
-                  className="text-sm tracking-wide uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-                >
-                  Doesn't fit
-                </button>
-                <button
-                  onClick={handleBack}
-                  className="text-sm tracking-wide uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors ml-auto"
-                >
-                  ← Back
-                </button>
-              </div>
+            <div className="flex justify-end pt-16">
+              <button
+                type="button"
+                onClick={handleLookBack}
+                className="text-xs tracking-wide uppercase text-neutral-400 dark:text-neutral-600 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+              >
+                look back
+              </button>
             </div>
-          )
+          </form>
         )}
+
+        {view === "quote" && selection && (
+          <div className="space-y-10">
+            <div key={quoteKey} className="fade-enter space-y-8">
+              <blockquote
+                lang={selection.quote.lang}
+                className="font-serif text-2xl sm:text-3xl leading-snug text-neutral-900 dark:text-neutral-100"
+              >
+                <span className="text-neutral-300 dark:text-neutral-700 select-none">
+                  &ldquo;
+                </span>
+                {selection.quote.text}
+                <span className="text-neutral-300 dark:text-neutral-700 select-none">
+                  &rdquo;
+                </span>
+              </blockquote>
+              <footer className="text-sm text-neutral-600 dark:text-neutral-400">
+                — {selection.quote.author}
+                {selection.quote.source && (
+                  <>
+                    , <em className="font-serif">{selection.quote.source}</em>
+                  </>
+                )}
+              </footer>
+              {(bio || selection.quote.explanation) && (
+                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-3 text-xs sm:text-sm leading-relaxed text-neutral-500 dark:text-neutral-500 max-w-xl">
+                  {bio && <p className="italic">{bio}</p>}
+                  {selection.quote.explanation && <p>{selection.quote.explanation}</p>}
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-6 pt-2">
+              <button
+                onClick={handleAnother}
+                className="text-sm tracking-wide uppercase text-neutral-900 dark:text-neutral-100 border-b border-neutral-900 dark:border-neutral-100 pb-1 hover:opacity-60 transition-opacity"
+              >
+                Another
+              </button>
+              <button
+                onClick={handleDoesntFit}
+                className="text-sm tracking-wide uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              >
+                Doesn't fit
+              </button>
+              <button
+                onClick={handleBack}
+                className="text-sm tracking-wide uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors ml-auto"
+              >
+                ← Back
+              </button>
+            </div>
+          </div>
+        )}
+
+        {view === "recap" && <RecapView onBack={handleBackFromRecap} />}
       </div>
     </main>
   );
