@@ -15,6 +15,10 @@ dist-ssr
 # Claude Code local settings
 .claude/settings.local.json
 
+# macOS Finder duplicates ("README 2.md", "App 2.tsx", etc.)
+* [0-9].*
+*[0-9]\ */
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
