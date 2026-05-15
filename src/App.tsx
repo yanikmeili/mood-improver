@@ -7,8 +7,11 @@ type View = "input" | "quote";
 
 const PROMPTS: { lang: Lang; question: string; example: string }[] = [
   { lang: "en", question: "How are you, really?", example: "i'm tired and a little sad" },
-  { lang: "fr", question: "Comment tu vas, vraiment ?", example: "j'ai le cafard, je sais pas pourquoi" },
+  { lang: "fr", question: "Comment tu vas, vraiment ?", example: "ça va, calme, presque heureux" },
   { lang: "pt", question: "Como estás, na verdade?", example: "estou cansado mas em paz" },
+  { lang: "en", question: "How are you, really?", example: "grateful, for once, without a reason" },
+  { lang: "fr", question: "Comment tu vas, vraiment ?", example: "j'ai le cafard, je sais pas pourquoi" },
+  { lang: "pt", question: "Como estás, na verdade?", example: "amo essa manhã, do nada" },
 ];
 
 const VIEW_OUT_MS = 260;
