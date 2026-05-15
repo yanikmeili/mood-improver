@@ -23,6 +23,31 @@ const PROMPTS: { lang: Lang; question: string; example: string }[] = [
 const VIEW_OUT_MS = 260;
 const CYCLE_MS = 2800;
 
+function joinHuman(tags: string[]): string {
+  if (tags.length === 0) return "";
+  if (tags.length === 1) return tags[0];
+  if (tags.length === 2) return `${tags[0]} and ${tags[1]}`;
+  return `${tags.slice(0, -1).join(", ")}, and ${tags[tags.length - 1]}`;
+}
+
+function whyChosen(selection: Selection): string {
+  if (selection.via === "random") {
+    return "Picked at random — nothing in your input pointed to a specific mood.";
+  }
+  const tagList = joinHuman(selection.matchedTags);
+  if (selection.via === "adjacent") {
+    return `Chosen for ${tagList} — close to what your input was reaching for.`;
+  }
+  return `Chosen for ${tagList} — what your input pointed toward.`;
+}
+
+function isSinglePhrase(text: string): boolean {
+  // A "phrase" here means one grammatical sentence — no internal sentence
+  // boundary other than the closing punctuation.
+  const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+  return sentences.length <= 1;
+}
+
 export default function App() {
   const [view, setView] = useState<View>("input");
   const [phase, setPhase] = useState<"in" | "out">("in");
@@ -231,13 +256,15 @@ export default function App() {
                     , <em className="font-serif">{selection.quote.source}</em>
                   </>
                 )}
+                {isSinglePhrase(selection.quote.text) && (
+                  <span className="text-neutral-400 dark:text-neutral-600"> · a phrase</span>
+                )}
               </footer>
-              {(bio || selection.quote.explanation) && (
-                <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-3 text-xs sm:text-sm leading-relaxed text-neutral-500 dark:text-neutral-500 max-w-xl">
-                  {bio && <p className="italic">{bio}</p>}
-                  {selection.quote.explanation && <p>{selection.quote.explanation}</p>}
-                </div>
-              )}
+              <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-3 text-xs sm:text-sm leading-relaxed text-neutral-500 dark:text-neutral-500 max-w-xl">
+                <p>{whyChosen(selection)}</p>
+                {bio && <p className="italic">{bio}</p>}
+                {selection.quote.explanation && <p>{selection.quote.explanation}</p>}
+              </div>
             </div>
             <div className="flex items-center gap-6 pt-2">
               <button

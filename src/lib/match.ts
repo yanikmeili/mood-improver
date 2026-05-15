@@ -362,9 +362,12 @@ export interface SelectOptions {
   excludedTags?: Tag[];
 }
 
+export type SelectionVia = "match" | "adjacent" | "random";
+
 export interface Selection {
   quote: Quote;
-  matchedTags: Tag[];
+  matchedTags: Tag[];     // tags that drove the selection (may be adjacency tags when via === "adjacent")
+  via: SelectionVia;      // how the quote was picked, used to explain the choice to the user
 }
 
 export function selectQuote(input: string, opts: SelectOptions = {}): Selection {
@@ -383,7 +386,9 @@ export function selectQuote(input: string, opts: SelectOptions = {}): Selection 
       (q) => q.tags.filter((t) => usableTags.includes(t)).length >= 2,
     );
     if (intersection.length > 0) {
-      return { quote: pickRandom(intersection), matchedTags: usableTags };
+      const quote = pickRandom(intersection);
+      const overlap = quote.tags.filter((t) => usableTags.includes(t));
+      return { quote, matchedTags: overlap, via: "match" };
     }
   }
 
@@ -391,7 +396,9 @@ export function selectQuote(input: string, opts: SelectOptions = {}): Selection 
   if (usableTags.length >= 1) {
     const union = available((q) => q.tags.some((t) => usableTags.includes(t)));
     if (union.length > 0) {
-      return { quote: pickRandom(union), matchedTags: usableTags };
+      const quote = pickRandom(union);
+      const overlap = quote.tags.filter((t) => usableTags.includes(t));
+      return { quote, matchedTags: overlap, via: "match" };
     }
   }
 
@@ -406,13 +413,15 @@ export function selectQuote(input: string, opts: SelectOptions = {}): Selection 
     if (adjacent.size > 0) {
       const fromAdjacent = available((q) => q.tags.some((t) => adjacent.has(t)));
       if (fromAdjacent.length > 0) {
-        return { quote: pickRandom(fromAdjacent), matchedTags: Array.from(adjacent) };
+        const quote = pickRandom(fromAdjacent);
+        const overlap = quote.tags.filter((t) => adjacent.has(t));
+        return { quote, matchedTags: overlap, via: "adjacent" };
       }
     }
   }
 
-  // 4. Silent random fallback
+  // 4. Random fallback
   const pool = quotes.filter((q) => !excludedIds.has(q.id));
   const finalPool = pool.length > 0 ? pool : quotes;
-  return { quote: pickRandom(finalPool), matchedTags: [] };
+  return { quote: pickRandom(finalPool), matchedTags: [], via: "random" };
 }
