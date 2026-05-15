@@ -2,16 +2,20 @@
 
 A quote that meets the mood you're in. No "Believe in yourself."
 
-You type how you feel — anything, any length. The app finds a curated quote
-that matches: Marcus Aurelius, Cioran, Pessoa, Rumi, DFW, Annie Dillard,
-Anne Carson, Etty Hillesum, and others worth reading.
+You type how you feel — in English, French, or Portuguese — and the app
+finds a curated quote that matches. Quotes are displayed in the author's
+original language: Cioran and Camus in French, Pessoa and Lispector in
+Portuguese, DFW and Anne Carson in English. Authors who wrote in Greek,
+Persian, German, or Danish (Marcus Aurelius, Rumi, Kafka, Rilke,
+Kierkegaard…) appear in canonical English translation.
 
 ## Stack
 
 - Vite + React 19 + TypeScript
 - Tailwind v4
-- Static JSON of ~100 hand-curated quotes — no API, no key, no backend
-- Keyword-based mood-to-tag matcher with negation handling
+- ~300 hand-curated quotes in EN / FR / PT — no API, no key, no backend
+- Multilingual keyword matcher (EN+FR+PT) with negation handling
+- Input language is irrelevant to selection; only emotional tags drive the pick
 
 ## Develop
 
@@ -53,6 +57,7 @@ Edit `src/data/quotes.ts`. Each entry needs:
 ```ts
 {
   id: <next integer>,
+  lang: "en" | "fr" | "pt",
   text: "…",
   author: "First Last",
   source: "Optional Book Title",

@@ -104,7 +104,10 @@ export default function App() {
         ) : (
           selection && (
             <div key={fadeKey} className="fade-enter space-y-10">
-              <blockquote className="font-serif text-2xl sm:text-3xl leading-snug text-neutral-900 dark:text-neutral-100">
+              <blockquote
+                lang={selection.quote.lang}
+                className="font-serif text-2xl sm:text-3xl leading-snug text-neutral-900 dark:text-neutral-100"
+              >
                 <span className="text-neutral-300 dark:text-neutral-700 select-none">
                   &ldquo;
                 </span>
@@ -121,11 +124,6 @@ export default function App() {
                   </>
                 )}
               </footer>
-              {selection.fellBackToRandom && (
-                <p className="text-xs text-neutral-400 dark:text-neutral-600 italic">
-                  I couldn't quite read the mood. Here's something anyway.
-                </p>
-              )}
               <div className="flex items-center gap-6 pt-4">
                 <button
                   onClick={handleAnother}
