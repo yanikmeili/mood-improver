@@ -313,6 +313,43 @@ export const authors: Record<string, string> = {
     "Brazilian singer-songwriter, born Luiz Gonzaga Jr. (1945–1991); son of Luiz Gonzaga; wrote some of MPB's most lyrically tender songs.",
   "João Guimarães Rosa":
     "Brazilian writer and diplomat (1908–1967); Grande Sertão: Veredas is his most famous work, written in an invented Portuguese that mixes sertanejo speech, neologisms, and archaisms.",
+
+  // ── Second expansion: Dickinson, Frost, Glück, Cavafy, Howe and others ──
+  "Emily Dickinson":
+    "American poet (1830–1886); lived almost her entire life in one house in Amherst, Massachusetts; published only a dozen of her ~1,800 poems while alive.",
+  "Robert Frost":
+    "American poet (1874–1963); New England farmer and four-time Pulitzer winner; surface-plain verse that hides extensive metric and rhythmic engineering.",
+  "Wallace Stevens":
+    "American poet (1879–1955); spent his career as an insurance executive in Hartford; wrote some of the most metaphysically dense poetry in English.",
+  "Louise Glück":
+    "American poet (1943–2023); Nobel laureate; austere, mythologically literate work on family, loss, and survival.",
+  "Czesław Miłosz":
+    "Polish poet, essayist, and diplomat (1911–2004); Nobel laureate; defected from communist Poland in 1951 and wrote The Captive Mind.",
+  "Adam Zagajewski":
+    "Polish poet and essayist (1945–2021); Try to Praise the Mutilated World, published in The New Yorker the week after September 11, became one of the most circulated poems of the century.",
+  "Constantine Cavafy":
+    "Greek poet from Alexandria (1863–1933); worked as a clerk at the Egyptian Ministry of Public Works; published almost nothing in his lifetime.",
+  "Anna Akhmatova":
+    "Russian poet (1889–1966); her first husband was shot by the Bolsheviks, her son spent years in the gulag; she continued writing through it all.",
+  "Sharon Olds":
+    "American poet (b. 1942); Pulitzer winner; writes unflinchingly about the body, family, and intimate violence.",
+  "Marie Howe":
+    "American poet (b. 1950); What the Living Do was written after her brother's death from AIDS; New York State Poet from 2012–2014.",
+  "Patti Smith":
+    "American musician, poet, and memoirist (b. 1946); Just Kids won the National Book Award for nonfiction.",
+  "bell hooks":
+    "American writer and cultural critic, born Gloria Jean Watkins (1952–2021); chose to use lowercase letters in her pen name to keep attention on her ideas, not her person.",
+  "Stéphane Mallarmé":
+    "French symbolist poet (1842–1898); spent his life as a high-school English teacher; his Tuesday salons shaped a generation of French letters.",
+  "Alphonse de Lamartine":
+    "French romantic poet, novelist, and politician (1790–1869); his Méditations poétiques (1820) is often considered the start of French Romanticism.",
+
+  "Ferreira Gullar":
+    "Brazilian poet (1930–2016); founded the Neo-Concrete movement, then broke with it; spent years in political exile under the dictatorship.",
+  "Paulo Leminski":
+    "Brazilian poet (1944–1989); concrete poet, judoka, translator; his Toda Poesia became one of Brazil's best-selling poetry books in the decades after his death.",
+  "João Cabral de Melo Neto":
+    "Brazilian poet and diplomat (1920–1999); famously precise and anti-lyrical; Morte e Vida Severina is a Christmas play in verse about the Brazilian Northeast.",
 };
 
 // Heteronym-aware lookup: "Fernando Pessoa (Álvaro de Campos)" → falls back to
